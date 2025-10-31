@@ -170,7 +170,7 @@ export default function LandingPage() {
             </div>
           );
         })()}
-        <div className="flex items-center gap-3">
+        {/* <div className="flex items-center gap-3">
           <button
             onClick={(e) => {
               const list = document.getElementById("list");
@@ -185,8 +185,8 @@ export default function LandingPage() {
               ? "Ampliar Itens"
               : "Reduzir Itens"
             }
-          </button>
-        </div>
+          </button> 
+        </div> */}
       </div>
     </div>
   );
@@ -218,7 +218,7 @@ export default function LandingPage() {
           </div>
         )}
 
-        <div id="list" className="grid gap-6 md:grid-cols-2">
+        <div id="list" className="grid gap-6 md:grid-cols-4">
           {filtrados.map((p) => {
             const mainURL = safeURL(p.url);
             const adminURL = safeURL(p.url_admin);
@@ -226,62 +226,23 @@ export default function LandingPage() {
             return (
               <div
                 key={p.id}
-                className="group rounded-sm border border-slate-200 bg-white shadow-sm hover:shadow-lg overflow-hidden"
-              >
+                className="group rounded-sm border border-slate-200 bg-white shadow-sm hover:shadow-lg overflow-hidden">
+                  
                 <div className="flex items-start justify-between p-4 border-b border-slate-200 bg-slate-50">
                   <div className="flex flex-row justify-center items-center min-w-0 gap-4">
-                    <img
-                      src={getGrupoImage(p.grupo)}
-                      alt={p.grupo}
-                      className="w-fit h-10 object-contain rounded-sm bg-slate-100"
-                    />
                     <h2 className="font-semibold text-slate-800 truncate">
                       {p.nome || "(sem nome)"}
                     </h2>
-                    <a href={p.url} target="_blank" className="text-blue-400">
-                      <ExternalLink size={18} />
-                    </a>
                   </div>
                 </div>
 
-                <div className="aspect-[16/10] bg-slate-100 relative">
-                  {mainURL ? (
-                    (() => {
-                      // HTTPS (Vercel) + HTTP (projeto) => usa proxy
-                      const isHttps = typeof window !== "undefined" && window.location.protocol === "https:";
-                      const isHttpUrl = /^http:\/\//i.test(p.url || "");
-                      const canEmbedDirect = !(isHttps && isHttpUrl);
-
-                      const iframeSrc = canEmbedDirect
-                        ? p.url
-                        : `/api/proxy?url=${encodeURIComponent(p.url)}`;
-
-                      return (
-                        <>
-                          <iframe
-                            src={iframeSrc}
-                            title={p.nome || "projeto"}
-                            className="absolute inset-0 w-full h-full border-0 overflow-hidden"
-                            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-                            referrerPolicy="no-referrer"
-                            scrolling="no"
-                          />
-                          {!canEmbedDirect && (
-                            <div className="absolute top-2 right-2 text-[11px] bg-amber-500/90 text-white px-2 py-1 rounded">
-                              HTTP via proxy
-                            </div>
-                          )}
-                        </>
-                      );
-                    })()
-                  ) : (
-                    <img
-                      src={getGrupoImage(p.grupo)}
-                      alt={p.grupo}
-                      className="w-full h-20 object-contain bg-slate-100"
-                    />
-                  )}
-                </div>
+                <a href={p.url} target="_blank" rel="noopener noreferrer" className="aspect-[16/10] flex justify-center items-center bg-slate-100 hover:bg-indigo-300 duration-700 relative">
+                  <img
+                    src={getGrupoImage(p.grupo)}
+                    alt={p.grupo}
+                    className="w-fit h-20 object-contain rounded-sm"
+                  />
+                </a>
 
                 <div className="flex flex-row items-center justify-start gap-2 p-2">
                   <div className="flex items-start gap-2">
@@ -293,10 +254,10 @@ export default function LandingPage() {
                         });
                         setDescOpen(true);
                       }}
-                      className="flex flex-row gap-1 rounded-lg bg-gray-200 text-slate-800 hover:text-blue-500 text-xs px-3 py-2 cursor-pointer"
+                      className="flex flex-row gap-1 rounded-lg bg-gray-200 text-slate-800 hover:text-blue-500 text-xs px-2 py-2 cursor-pointer"
                       title="Ver descrição"
                     >
-                      <NotepadText size={14} /> Descrição
+                      <NotepadText size={14} /> Portas
 
                     </button>
                     {adminURL && (
@@ -304,7 +265,7 @@ export default function LandingPage() {
                         href={adminURL}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex flex-row gap-1 rounded-lg bg-gray-200 text-slate-800 hover:text-yellow-600 text-xs px-3 py-2 cursor-pointer"
+                        className="flex flex-row gap-1 rounded-lg bg-gray-200 text-slate-800 hover:text-yellow-600 text-xs px-2 py-2 cursor-pointer"
                         title="Abrir admin"
                       >
                         <Shield size={14} /> Admin
@@ -317,17 +278,17 @@ export default function LandingPage() {
                         setEditing(p);
                         setOpenModal(true);
                       }}
-                      className="flex flex-row gap-1 rounded-lg bg-gray-200 text-slate-800 hover:text-green-400 text-xs px-3 py-2 cursor-pointer"
+                      className="flex flex-row gap-1 rounded-lg bg-gray-200 text-slate-800 hover:text-green-400 text-xs px-2 py-2 cursor-pointer"
                       title="Editar"
                     >
                       <Settings size={14} /> Editar
                     </button>
                     <button
                       onClick={() => removeProject(p.id, p.nome)}
-                      className="flex flex-row gap-1 rounded-lg bg-gray-200 text-slate-800 hover:text-red-600 text-xs px-3 py-2 cursor-pointer"
+                      className="flex flex-row gap-1 rounded-lg bg-gray-200 text-slate-800 hover:text-red-600 text-xs px-2 py-2 cursor-pointer"
                       title="Excluir"
                     >
-                      <Trash size={14} /> Excluir
+                      <Trash size={14} />
                     </button>
                   </div>
                 </div>
