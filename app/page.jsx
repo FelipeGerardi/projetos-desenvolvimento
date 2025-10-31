@@ -18,7 +18,7 @@ import {
 import Header from "@/components/Header";
 import ProjectFormModal from "@/components/ProjectFormModal";
 import DescriptionModal from "@/components/DescriptionModal";
-import { Power, NotepadText, Shield, Settings, Trash } from "lucide-react";
+import { Power, NotepadText, Shield, Settings, Trash, ExternalLink } from "lucide-react";
 
 
 export default function LandingPage() {
@@ -232,6 +232,9 @@ export default function LandingPage() {
                     <h2 className="font-semibold text-slate-800 truncate">
                       {p.nome || "(sem nome)"}
                     </h2>
+                    <a href={p.url} target="_blank" className="text-blue-400">
+                      <ExternalLink size={18} />
+                    </a>
                   </div>
                 </div>
 
@@ -268,6 +271,7 @@ export default function LandingPage() {
                       title="Ver descrição"
                     >
                       <NotepadText size={14} /> Descrição
+
                     </button>
                     {adminURL && (
                       <a
