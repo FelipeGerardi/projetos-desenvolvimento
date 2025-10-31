@@ -18,7 +18,7 @@ import {
 import Header from "@/components/Header";
 import ProjectFormModal from "@/components/ProjectFormModal";
 import DescriptionModal from "@/components/DescriptionModal";
-import { Power, NotepadText, Shield, Settings, Trash, ExternalLink } from "lucide-react";
+import { Power, NotepadText, Shield, Settings, Trash, Search, ExternalLink } from "lucide-react";
 
 
 export default function LandingPage() {
@@ -112,10 +112,27 @@ export default function LandingPage() {
 
   const rightActions = (
     <>
-      <div className="hidden md:flex items-center gap-2 bg-white/10 rounded-xl px-2 py-1">
+      <div className="hidden sm:block text-white/90 text-sm">
+        {user?.email}
+      </div>
+      <button
+        onClick={handleLogout}
+        className="rounded-sm bg-slate-500/30 text-red-600 px-3 py-2 border border-slate-700 hover:border-red-600 duration-700 cursor-pointer"
+        title="Sair"
+      >
+        <Power size={16} />
+      </button>
+
+    </>
+  );
+
+  const downActions = (
+    <div className="bg-slate-50 flex flex-row justify-start items-center py-6 px-12 gap-12">
+      <div className="flex items-center border border-gray-400 rounded-sm gap-2 px-2 py-1">
+        <Search size={16} className="text-gray-600" />
         <input
           placeholder="Buscar por nome, URL, grupo ou descrição…"
-          className="w-64 md:w-80 bg-transparent placeholder-white/80 text-white outline-none px-2 py-1"
+          className="w-64 md:w-80 bg-transparent placeholder-gray-400/80 text-slate-800 outline-none px-2 py-1"
           value={busca}
           onChange={(e) => setBusca(e.target.value)}
         />
@@ -125,21 +142,53 @@ export default function LandingPage() {
           setEditing(null);
           setOpenModal(true);
         }}
-        className="rounded-xl bg-white text-slate-700 font-medium px-3 py-2 hover:shadow cursor-pointer"
+        className="rounded-sm bg-slate-700 font-medium px-3 py-2 hover:shadow cursor-pointer"
       >
         + Adicionar
       </button>
-      <div className="hidden sm:block text-white/90 text-sm">
-        {user?.email}
+      <div className="flex flex-row justify-start items-center gap-2">
+        {(() => {
+          const groups = [...new Set(projetos.map((p) => (p.grupo || "Todos")))].sort();
+          const selected = groups.includes(busca) ? busca : "Todos";
+
+          return (
+            <div className="w-fit rounded-lg flex flex-wrap items-center gap-3">
+              <label className="text-md text-slate-800">Filtrar por grupo:</label>
+
+              <select
+                value={selected}
+                onChange={(e) => setBusca(e.target.value === "Todos" ? "" : e.target.value)}
+                className="rounded-sm bg-slate-800 text-white px-3 py-2 cursor-pointer"
+              >
+                <option value="Todos">Todos</option>
+                {groups.map((g) => (
+                  <option key={g} value={g}>
+                    {g}
+                  </option>
+                ))}
+              </select>
+            </div>
+          );
+        })()}
+        <div className="flex items-center gap-3">
+          <button
+            onClick={(e) => {
+              const list = document.getElementById("list");
+              if (!list) return;
+              const has = list.classList.toggle("grid");
+              e.currentTarget.textContent = has ? "Ampliar Itens" : "Reduzir Itens";
+            }}
+            className="text-sm rounded-sm bg-slate-800 text-white font-medium p-2 cursor-pointer"
+            title="Alternar grid"
+          >
+            {typeof document !== "undefined" && document.getElementById("list")?.classList.contains("grid")
+              ? "Ampliar Itens"
+              : "Reduzir Itens"
+            }
+          </button>
+        </div>
       </div>
-      <button
-        onClick={handleLogout}
-        className="rounded-xl bg-slate-500/30 text-red-600 px-3 py-2 border border-slate-700 hover:border-red-600 duration-700 cursor-pointer"
-        title="Sair"
-      >
-        <Power size={16} />
-      </button>
-    </>
+    </div>
   );
 
   function getGrupoImage(grupo) {
@@ -160,7 +209,7 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <Header title="Projetos CHP" right={rightActions} />
+      <Header title="Projetos CHP" right={rightActions} down={downActions} />
 
       <main className="mx-auto max-w-7xl px-4 py-6 md:py-8">
         {filtrados.length === 0 && (
@@ -168,51 +217,8 @@ export default function LandingPage() {
             Nenhum projeto encontrado.
           </div>
         )}
-        <div className="flex flex-row justify-start items-center gap-2">
-          {(() => {
-            const groups = [...new Set(projetos.map((p) => (p.grupo || "Todos")))].sort();
-            const selected = groups.includes(busca) ? busca : "Todos";
 
-            return (
-              <div className="w-fit rounded-lg mb-4 flex flex-wrap items-center gap-3">
-                <label className="text-md text-slate-800">Filtrar por grupo:</label>
-
-                <select
-                  value={selected}
-                  onChange={(e) => setBusca(e.target.value === "Todos" ? "" : e.target.value)}
-                  className="rounded-xl bg-slate-200 text-slate-800 border-1 border-gray-400 px-3 py-2 cursor-pointer"
-                >
-                  <option value="Todos">Todos</option>
-                  {groups.map((g) => (
-                    <option key={g} value={g}>
-                      {g}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            );
-          })()}
-
-          <div className="flex items-center gap-3 mb-4">
-            <button
-              onClick={(e) => {
-                const list = document.getElementById("list");
-                if (!list) return;
-                const has = list.classList.toggle("grid");
-                e.currentTarget.textContent = has ? "Ampliar Itens" : "Reduzir Itens";
-              }}
-              className="text-sm rounded-xl bg-slate-200 text-slate-800 font-medium p-2 border-1 border-gray-400 cursor-pointer"
-              title="Alternar grid"
-            >
-              {typeof document !== "undefined" && document.getElementById("list")?.classList.contains("grid")
-                ? "Ampliar Itens"
-                : "Reduzir Itens"
-              }
-            </button>
-          </div>
-        </div>
-
-        <div id="list" className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div id="list" className="grid gap-6 md:grid-cols-2">
           {filtrados.map((p) => {
             const mainURL = safeURL(p.url);
             const adminURL = safeURL(p.url_admin);
@@ -220,14 +226,14 @@ export default function LandingPage() {
             return (
               <div
                 key={p.id}
-                className="group rounded-2xl border border-slate-200 bg-white shadow-sm hover:shadow-lg overflow-hidden"
+                className="group rounded-sm border border-slate-200 bg-white shadow-sm hover:shadow-lg overflow-hidden"
               >
                 <div className="flex items-start justify-between p-4 border-b border-slate-200 bg-slate-50">
                   <div className="flex flex-row justify-center items-center min-w-0 gap-4">
                     <img
                       src={getGrupoImage(p.grupo)}
                       alt={p.grupo}
-                      className="w-fit h-10 object-contain rounded-full bg-slate-100"
+                      className="w-fit h-10 object-contain rounded-sm bg-slate-100"
                     />
                     <h2 className="font-semibold text-slate-800 truncate">
                       {p.nome || "(sem nome)"}
@@ -240,14 +246,34 @@ export default function LandingPage() {
 
                 <div className="aspect-[16/10] bg-slate-100 relative">
                   {mainURL ? (
-                    <iframe
-                      src={mainURL}
-                      title={p.nome || "projeto"}
-                      className="absolute inset-0 w-full h-full border-0 overflow-hidden"
-                      sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-                      referrerPolicy="no-referrer"
-                      scrolling="no"
-                    />
+                    (() => {
+                      // HTTPS (Vercel) + HTTP (projeto) => usa proxy
+                      const isHttps = typeof window !== "undefined" && window.location.protocol === "https:";
+                      const isHttpUrl = /^http:\/\//i.test(p.url || "");
+                      const canEmbedDirect = !(isHttps && isHttpUrl);
+
+                      const iframeSrc = canEmbedDirect
+                        ? p.url
+                        : `/api/proxy?url=${encodeURIComponent(p.url)}`;
+
+                      return (
+                        <>
+                          <iframe
+                            src={iframeSrc}
+                            title={p.nome || "projeto"}
+                            className="absolute inset-0 w-full h-full border-0 overflow-hidden"
+                            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+                            referrerPolicy="no-referrer"
+                            scrolling="no"
+                          />
+                          {!canEmbedDirect && (
+                            <div className="absolute top-2 right-2 text-[11px] bg-amber-500/90 text-white px-2 py-1 rounded">
+                              HTTP via proxy
+                            </div>
+                          )}
+                        </>
+                      );
+                    })()
                   ) : (
                     <img
                       src={getGrupoImage(p.grupo)}
