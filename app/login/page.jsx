@@ -69,7 +69,7 @@ export default function LoginPage() {
             </label>
             <input
               type="email"
-              className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 outline-none focus:ring-2 focus:ring-slate-500"
+              className="mt-1 w-full text-slate-900 rounded-lg border border-slate-300 bg-white px-3 py-2 outline-none focus:ring-2 focus:ring-slate-500"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -80,7 +80,7 @@ export default function LoginPage() {
             </label>
             <input
               type="password"
-              className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 outline-none focus:ring-2 focus:ring-slate-500"
+              className="mt-1 w-full text-slate-900 rounded-lg border border-slate-300 bg-white px-3 py-2 outline-none focus:ring-2 focus:ring-slate-500"
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
               minLength={6}
