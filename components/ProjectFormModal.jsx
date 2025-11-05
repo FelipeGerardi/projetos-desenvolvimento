@@ -95,11 +95,11 @@ export default function ProjectFormModal({
         className="relative w-full max-w-lg bg-white rounded-2xl p-5 shadow-xl"
       >
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-lg font-semibold">
+          <h2 className="text-slate-800 text-lg font-semibold">
             {initialData?.id ? "Editar projeto" : "Novo projeto"}
           </h2>
           <button
-            className="px-3 py-1 rounded-lg text-sm bg-neutral-100"
+            className="px-3 py-1 rounded-lg text-slate-800 text-sm bg-neutral-100"
             onClick={onClose}
           >
             Fechar
@@ -108,9 +108,9 @@ export default function ProjectFormModal({
 
         <form onSubmit={handleSubmit} className="space-y-3">
           <div>
-            <label className="block text-sm mb-1">Nome</label>
+            <label className="block text-slate-800 text-sm mb-1">Nome</label>
             <input
-              className="w-full border rounded-lg px-3 py-2"
+              className="w-full border text-slate-800 rounded-lg px-3 py-2"
               value={nome}
               onChange={(e) => setNome(e.target.value)}
               required
@@ -119,18 +119,18 @@ export default function ProjectFormModal({
 
           <div className="grid md:grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm mb-1">URL principal</label>
+              <label className="block text-slate-800 text-sm mb-1">URL principal</label>
               <input
-                className="w-full border rounded-lg px-3 py-2"
+                className="w-full border text-slate-800 rounded-lg px-3 py-2"
                 value={url}
                 placeholder="https://meu-projeto.com"
                 onChange={(e) => setUrl(e.target.value)}
               />
             </div>
             <div>
-              <label className="block text-sm mb-1">URL admin</label>
+              <label className="block text-slate-800 text-sm mb-1">URL admin</label>
               <input
-                className="w-full border rounded-lg px-3 py-2"
+                className="w-full text-slate-800 border rounded-lg px-3 py-2"
                 value={urlAdmin}
                 placeholder="https://meu-projeto.com/admin"
                 onChange={(e) => setUrlAdmin(e.target.value)}
@@ -139,9 +139,9 @@ export default function ProjectFormModal({
           </div>
 
           <div>
-            <label className="block text-sm mb-1">Grupo</label>
+            <label className="block text-slate-800 text-sm mb-1">Grupo</label>
             <select
-              className="w-full border rounded-lg px-3 py-2 bg-white"
+              className="w-full text-slate-800 border rounded-lg px-3 py-2 bg-white"
               value={grupo}
               onChange={(e) => setGrupo(e.target.value)}
             >
@@ -152,9 +152,9 @@ export default function ProjectFormModal({
           </div>
 
           <div>
-            <label className="block text-sm mb-1">Descrição</label>
+            <label className="block text-slate-800 text-sm mb-1">Descrição</label>
             <textarea
-              className="w-full border rounded-lg px-3 py-2 min-h-[120px]"
+              className="w-full text-slate-800 border rounded-lg px-3 py-2 min-h-[120px]"
               value={descricao}
               placeholder="Breve descrição do projeto, stack, objetivo, links úteis..."
               onChange={(e) => setDescricao(e.target.value)}
